@@ -10,13 +10,38 @@ const RoleSchema = new mongoose.Schema(
             type: String,
             require: true,
         },
-        isSetting: Boolean,
-        createUsers: Boolean,
-        editUsers: Boolean,
-        deleteUsers: Boolean,
-        createProjects: Boolean,
-        editProjects: Boolean,
-        deleteProjects: Boolean,
+        isSetting: {
+            type: Boolean,
+            default: false,
+        },
+        users: {
+            createUsers: {
+                type: Boolean,
+                default: false,
+            },
+            editUsers: {
+                type: Boolean,
+                default: false,
+            },
+            deleteUsers: {
+                type: Boolean,
+                default: false,
+            },
+        },
+        projects: {
+            createProjects: {
+                type: Boolean,
+                default: false,
+            },
+            editProjects: {
+                type: Boolean,
+                default: false,
+            },
+            deleteProjects: {
+                type: Boolean,
+                default: false,
+            },
+        },
     },
     {
         timestamps: true,

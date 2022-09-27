@@ -25,18 +25,26 @@ export const create = async (req, res) => {
         const doc = new Role({
             title: req.body.title,
             color: req.body.color,
-            isSetting: req.body.isSettings,
-            createUsers: req.body.createUsers,
-            editUsers: req.body.editUsers,
-            deleteUsers: req.body.deleteUsers,
-            createProjects: req.body.createProjects,
-            editProjects: req.body.editProjects,
-            deleteProjects: req.body.deleteProjects,
+            isSetting: req.body.isSetting,
+            users: {
+                createUsers: req.body.users.createUsers,
+                editUsers: req.body.users.editUsers,
+                deleteUsers: req.body.users.deleteUsers,
+            },
+            projects: {
+                createProjects: req.body.projects.createProjects,
+                editProjects: req.body.projects.editProjects,
+                deleteProjects: req.body.projects.deleteProjects,
+            },
         });
 
         const role = await doc.save();
 
-        res.json(role);
+        res.json({
+            success: true,
+            message: 'Роль успішно створенна',
+            role,
+        });
     } catch (err) {
         console.log('Помилка в створенні нової ролі =>', err);
         res.status(500).json({
@@ -50,6 +58,8 @@ export const update = async (req, res) => {
     try {
         const roleId = req.params.id;
 
+        // console.log('====>', req);
+
         await Role.updateOne(
             {
                 _id: roleId,
@@ -57,13 +67,17 @@ export const update = async (req, res) => {
             {
                 title: req.body.title,
                 color: req.body.color,
-                isSetting: req.body.isSettings,
-                createUsers: req.body.createUsers,
-                editUsers: req.body.editUsers,
-                deleteUsers: req.body.deleteUsers,
-                createProjects: req.body.createProjects,
-                editProjects: req.body.editProjects,
-                deleteProjects: req.body.deleteProjects,
+                isSetting: req.body.isSetting,
+                users: {
+                    createUsers: req.body.users.createUsers,
+                    editUsers: req.body.users.editUsers,
+                    deleteUsers: req.body.users.deleteUsers,
+                },
+                projects: {
+                    createProjects: req.body.projects.createProjects,
+                    editProjects: req.body.projects.editProjects,
+                    deleteProjects: req.body.projects.deleteProjects,
+                },
             },
         );
 
