@@ -25,10 +25,24 @@ const UserSchema = new mongoose.Schema(
             type: String,
             require: true,
         },
-        twitter: String,
-        facebook: String,
-        telegram: String,
-        linkedin: String,
+        social: {
+            twitter: {
+                type: String,
+                default: '',
+            },
+            facebook: {
+                type: String,
+                default: '',
+            },
+            telegram: {
+                type: String,
+                default: '',
+            },
+            linkedin: {
+                type: String,
+                default: '',
+            },
+        },
     },
     {
         timestamps: true,

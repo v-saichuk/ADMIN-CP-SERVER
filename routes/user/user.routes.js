@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import config from 'config';
 import { validationResult } from 'express-validator';
 import User from '../../models/User.js';
+import Role from '../../models/Role.js';
 
 export const profile = async (req, res) => {
     try {
@@ -34,6 +35,21 @@ export const create = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
+        const person = await User.findOne({ email: req.body.email });
+        if (person) {
+            return res.status(409).json({
+                seccess: false,
+                message: 'Такий користувач вже зареєстрованний!',
+            });
+        }
+        const role = await Role.findOne({ _id: req.body.roleId });
+        if (!role) {
+            return res.status(404).json({
+                seccess: false,
+                message: 'Помилка. Така роль не знайдена!',
+            });
+        }
+
         const password = req.body.password;
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt);
@@ -45,10 +61,12 @@ export const create = async (req, res) => {
             email: req.body.email,
             roleId: req.body.roleId,
             passwordHash,
-            twitter: req.body.twitter,
-            facebook: req.body.facebook,
-            telegram: req.body.telegram,
-            linkedin: req.body.linkedin,
+            social: {
+                twitter: req.body.social.twitter,
+                facebook: req.body.social.facebook,
+                telegram: req.body.social.telegram,
+                linkedin: req.body.social.linkedin,
+            },
         });
 
         const user = await doc.save();
@@ -78,6 +96,14 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
     try {
         const userId = req.params.id;
+        const person = await User.findOne({ _id: userId });
+
+        const newPasswordHash = async () => {
+            const password = req.body.password;
+            const salt = await bcrypt.genSalt(10);
+            const newPasswordHash = await bcrypt.hash(password, salt);
+            return newPasswordHash;
+        };
 
         await User.updateOne(
             {
@@ -89,10 +115,13 @@ export const update = async (req, res) => {
                 lastName: req.body.lastName,
                 email: req.body.email,
                 roleId: req.body.roleId,
-                twitter: req.body.twitter,
-                facebook: req.body.facebook,
-                telegram: req.body.telegram,
-                linkedin: req.body.linkedin,
+                passwordHash: req.body.password ? await newPasswordHash() : person.passwordHash,
+                social: {
+                    twitter: req.body.social.twitter,
+                    facebook: req.body.social.facebook,
+                    telegram: req.body.social.telegram,
+                    linkedin: req.body.social.linkedin,
+                },
             },
         );
 
