@@ -6,6 +6,9 @@ import checkAuth from './utils/checkAuth.js';
 // AUTH
 import * as Auth from './routes/auth/auth.routes.js';
 import * as AuthValidation from './routes/auth/auth.validation.js';
+// OfferOwner
+import * as OfferOwner from './routes/offerOwner/offerOwner.routes.js';
+import * as OfferOwnerValidation from './routes/offerOwner/offerOwner.validation.js';
 // USERS
 import * as Users from './routes/users/users.routes.js';
 // USER
@@ -43,21 +46,36 @@ const start = async () => {
 };
 // Auth
 app.post('/api/auth/login', AuthValidation.login, Auth.login);
+
+// Offer Owner
+app.get('/api/offer-owner', checkAuth, OfferOwner.getAll);
+app.post('/api/offer-owner', checkAuth, OfferOwnerValidation.create, OfferOwner.create);
+app.patch('/api/offer-owner/:id', checkAuth, OfferOwnerValidation.update, OfferOwner.update);
+app.delete('/api/offer-owner/:id', checkAuth, OfferOwner.remove);
+// ./Offer Owner
+
 // Users
 app.get('/api/users', checkAuth, Users.getAll);
+// ./Users
+
 // User
 app.get('/api/profile', checkAuth, User.profile);
 app.post('/api/user', checkAuth, UserValidation.create, User.create);
 app.patch('/api/user/:id', checkAuth, UserValidation.update, User.update);
 app.delete('/api/user/:id', checkAuth, User.remove);
+// ./User
+
 // Roles
 app.get('/api/roles', checkAuth, Roles.getAll);
 app.post('/api/roles', checkAuth, RolesValidation.create, Roles.create);
 app.patch('/api/roles/:id', checkAuth, RolesValidation.update, Roles.update);
 app.delete('/api/roles/:id', checkAuth, Roles.remove);
+// ./Roles
+
 // Language
 app.get('/api/language', checkAuth, Language.getAll);
 app.post('/api/language', checkAuth, LanguageValidation.create, Language.create);
 app.patch('/api/language/:id', checkAuth, LanguageValidation.update, Language.update);
+// ./Language
 
 start();
