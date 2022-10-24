@@ -77,7 +77,7 @@ export const remove = async (req, res) => {
             if (err) {
                 return res.status(500).json({
                     success: false,
-                    message: 'Невдалось видалити роль',
+                    message: 'Невдалось видалити Offer Owner',
                     err,
                 });
             }
@@ -85,20 +85,20 @@ export const remove = async (req, res) => {
             if (!doc) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Роль не знайдена',
+                    message: 'Offer Owner не знайденний',
                     err,
                 });
             }
 
             res.json({
                 success: true,
-                message: 'Роль успішно видалена',
+                message: 'Offer Owner успішно видаленний',
             });
         });
     } catch (err) {
         res.status(500).json({
             success: false,
-            message: 'Невдалось видалити роль',
+            message: 'Невдалось видалити Offer Owner',
             err,
         });
     }

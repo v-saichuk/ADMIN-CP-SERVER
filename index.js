@@ -9,6 +9,9 @@ import * as AuthValidation from './routes/auth/auth.validation.js';
 // OfferOwner
 import * as OfferOwner from './routes/offerOwner/offerOwner.routes.js';
 import * as OfferOwnerValidation from './routes/offerOwner/offerOwner.validation.js';
+// Offers
+import * as Offer from './routes/offers/offers.routes.js';
+import * as OffersValidation from './routes/offers/offers.validation.js';
 // USERS
 import * as Users from './routes/users/users.routes.js';
 // USER
@@ -53,6 +56,13 @@ app.post('/api/offer-owner', checkAuth, OfferOwnerValidation.create, OfferOwner.
 app.patch('/api/offer-owner/:id', checkAuth, OfferOwnerValidation.update, OfferOwner.update);
 app.delete('/api/offer-owner/:id', checkAuth, OfferOwner.remove);
 // ./Offer Owner
+
+// Offers
+app.get('/api/offers', checkAuth, Offer.getAll);
+app.post('/api/offers', checkAuth, OffersValidation.create, Offer.create);
+app.patch('/api/offers/:id', checkAuth, OffersValidation.update, Offer.update);
+app.delete('/api/offers/:id', checkAuth, Offer.remove);
+// ./Offers
 
 // Users
 app.get('/api/users', checkAuth, Users.getAll);
