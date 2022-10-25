@@ -7,7 +7,6 @@ export const getAll = async (req, res) => {
 
         res.json(offers);
     } catch (err) {
-        console.log('Помилка в отримуванні всіх Offers =>', err);
         res.status(500).json({
             success: false,
             message: 'Невдалось отримати всі Offers',
@@ -68,7 +67,6 @@ export const update = async (req, res) => {
             offer,
         });
     } catch (err) {
-        console.log('Помилка в редагувані offer =>', err);
         res.status(500).json({
             success: false,
             message: 'Невдалось відредагувати offer',
