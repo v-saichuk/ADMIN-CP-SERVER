@@ -6,6 +6,13 @@ import checkAuth from './utils/checkAuth.js';
 // AUTH
 import * as Auth from './routes/auth/auth.routes.js';
 import * as AuthValidation from './routes/auth/auth.validation.js';
+// Websites
+import * as Websites from './routes/websites/websites.routes.js';
+import * as WebsitesValidation from './routes/websites/websites.validation.js';
+// Legals
+import * as Legals from './routes/legals/legals.routes.js';
+import * as LegalsValidation from './routes/legals/legals.validation.js';
+import * as Legal_content_API from './routes/legals/API/legals.api.routes.js';
 // OfferOwner
 import * as OfferOwner from './routes/offerOwner/offerOwner.routes.js';
 import * as OfferOwnerValidation from './routes/offerOwner/offerOwner.validation.js';
@@ -49,6 +56,33 @@ const start = async () => {
 };
 // Auth
 app.post('/api/auth/login', AuthValidation.login, Auth.login);
+
+// Websites
+app.get('/api/websites', checkAuth, Websites.getAll);
+app.post('/api/websites', checkAuth, WebsitesValidation.create, Websites.create);
+app.patch('/api/websites/:id', checkAuth, WebsitesValidation.update, Websites.update);
+app.delete('/api/websites/:id', checkAuth, Websites.remove);
+
+app.patch(
+    '/api/websites/enabled/:id',
+    checkAuth,
+    WebsitesValidation.updateOne,
+    Websites.updateEnabledOne,
+);
+app.patch('/api/websites/group/update', checkAuth, Websites.groupUpdate);
+// ./Websites
+
+// Legals
+app.get('/api/legals', checkAuth, Legals.getAll);
+app.post('/api/legals', checkAuth, LegalsValidation.create, Legals.create);
+app.patch('/api/legals/:id', checkAuth, LegalsValidation.update, Legals.update);
+app.delete('/api/legals/:id', checkAuth, Legals.remove);
+app.patch('/api/legals/enabled/:id', checkAuth, Legals.updateEnabledOne);
+app.patch('/api/legals/group/update', checkAuth, Legals.groupUpdate);
+// == API ==
+app.get('/api/legal/content/:id', Legal_content_API.getOne);
+// == API ==
+// ./Legals
 
 // Offer Owner
 app.get('/api/offer-owner', checkAuth, OfferOwner.getAll);

@@ -24,7 +24,6 @@ export const create = async (req, res) => {
 
         const doc = new Language({
             title: req.body.title,
-            code: req.body.code,
             icon: req.body.icon,
             enabled: req.body.enabled,
         });

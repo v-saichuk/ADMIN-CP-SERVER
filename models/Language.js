@@ -6,11 +6,6 @@ const LanguageSchema = new mongoose.Schema({
         require: true,
         unique: true,
     },
-    code: {
-        type: String,
-        require: true,
-        unique: true,
-    },
     icon: {
         type: String,
         require: true,
