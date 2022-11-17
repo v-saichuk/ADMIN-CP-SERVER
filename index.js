@@ -9,6 +9,12 @@ import * as AuthValidation from './routes/auth/auth.validation.js';
 // Websites
 import * as Websites from './routes/websites/websites.routes.js';
 import * as WebsitesValidation from './routes/websites/websites.validation.js';
+// Templates
+import * as Templates from './routes/templates/templates.routes.js';
+import * as TemplateValidation from './routes/templates/templates.validation.js';
+// Sections
+import * as Section from './routes/sections/sections.routes.js';
+import * as SectionValidation from './routes/sections/sections.validation.js';
 // Legals
 import * as Legals from './routes/legals/legals.routes.js';
 import * as LegalsValidation from './routes/legals/legals.validation.js';
@@ -71,6 +77,19 @@ app.patch(
 );
 app.patch('/api/websites/group/update', checkAuth, Websites.groupUpdate);
 // ./Websites
+
+// Templates
+app.get('/api/templates', checkAuth, Templates.getAll);
+app.post('/api/templates', checkAuth, TemplateValidation.create, Templates.create);
+app.patch('/api/templates/:id', checkAuth, TemplateValidation.update, Templates.update);
+app.delete('/api/templates/:id', checkAuth, Templates.remove);
+app.patch('/api/templates/group/update', checkAuth, Templates.groupUpdate);
+// ./Templates
+
+// Sections
+app.get('/api/sections', checkAuth, Section.getAll);
+app.post('/api/sections', checkAuth, SectionValidation.create, Section.create);
+// ./Sections
 
 // Legals
 app.get('/api/legals', checkAuth, Legals.getAll);
