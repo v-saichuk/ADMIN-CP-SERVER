@@ -119,7 +119,7 @@ app.delete('/api/offers/:id', checkAuth, Offer.remove);
 // ./Offers
 
 // Users
-app.get('/api/users', checkAuth, Users.getAll);
+app.get('/api/users', Users.getAll); //checkAuth
 // ./Users
 
 // User
