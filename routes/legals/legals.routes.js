@@ -179,11 +179,11 @@ export const groupUpdate = async (req, res) => {
     try {
         switch (req.body.action) {
             case 'Duplicate':
-                req.body.legalsId.filter(async (id) => {
+                await req.body.legalsId.map(async (id) => {
                     const page = await Legals.findById(id);
 
                     const doc = new Legals({
-                        name: page.name + '(copy)',
+                        name: page.name,
                         language: page.language,
                         offer: page.offer,
                         website: page.website,
@@ -196,7 +196,23 @@ export const groupUpdate = async (req, res) => {
                     });
 
                     await doc.save();
+
+                    const legals = await Legals.find()
+                        .populate('language')
+                        .populate('offer')
+                        .populate('website')
+                        .populate('offerOwner')
+                        .exec();
+
+                    res.json({
+                        success: true,
+                        data: legals.reverse(),
+                        message: 'Legal pages successfully duplicated',
+                    });
                 });
+
+                // TODO: Дублююється відправка  респонса, тому що в в переборі масива, Але інакше не працює. Пізніше розібратися з цим.
+
                 break;
 
             case 'Delete':
@@ -205,20 +221,21 @@ export const groupUpdate = async (req, res) => {
                         _id: el,
                     });
                 });
+
+                res.json({
+                    success: true,
+                    message: 'Legal pages successfully deleted',
+                });
+
                 break;
 
             default:
                 break;
         }
-
-        res.json({
-            success: true,
-            message: 'Legals pages успішно дубльовано',
-        });
     } catch (err) {
         res.status(500).json({
             success: false,
-            message: 'Невдалось дубльовати Legals pages',
+            message: 'Error legals pages',
         });
     }
 };
