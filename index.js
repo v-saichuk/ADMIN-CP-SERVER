@@ -3,6 +3,7 @@ import config from 'config';
 import express from 'express';
 import mongoose from 'mongoose';
 import checkAuth from './utils/checkAuth.js';
+
 // AUTH
 import * as Auth from './routes/auth/auth.routes.js';
 import * as AuthValidation from './routes/auth/auth.validation.js';
