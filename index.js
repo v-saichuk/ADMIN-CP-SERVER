@@ -38,7 +38,7 @@ import * as RolesValidation from './routes/roles/roles.validation.js';
 import * as Language from './routes/language/language.routes.js';
 import * as LanguageValidation from './routes/language/language.validation.js';
 
-const PORT = config.get('port') || 8080; //4000
+const PORT = process.env.PORT || 8080; //4000
 
 const app = express();
 app.use(cors());
