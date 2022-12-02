@@ -1,5 +1,5 @@
 {
-    "port": 4000,
+    "port": 80, 
     "mongoUri": "mongodb+srv://admin:2107fily@admin-cp.4ugzvdw.mongodb.net/admin-cp?retryWrites=true&w=majority",
     "secretKey": "secret123",
     "tokenExistence": "1h"
