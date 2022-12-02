@@ -38,7 +38,7 @@ import * as RolesValidation from './routes/roles/roles.validation.js';
 import * as Language from './routes/language/language.routes.js';
 import * as LanguageValidation from './routes/language/language.validation.js';
 
-const PORT = process.env.PORT || 8080; //4000
+const PORT = process.env.PORT || 8080; //config.get('port') -> 4000
 
 const app = express();
 app.use(cors());
@@ -119,7 +119,7 @@ app.delete('/api/offers/:id', checkAuth, Offer.remove);
 // ./Offers
 
 // Users
-app.get('/api/users', Users.getAll); //checkAuth
+app.get('/api/users', checkAuth, Users.getAll); //checkAuth
 // ./Users
 
 // User
