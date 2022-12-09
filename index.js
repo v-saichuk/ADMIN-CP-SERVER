@@ -88,8 +88,8 @@ app.patch('/api/templates/group/update', checkAuth, Templates.groupUpdate);
 // ./Templates
 
 // Sections
-app.get('/api/sections', checkAuth, Section.getAll);
-app.post('/api/sections', checkAuth, SectionValidation.create, Section.create);
+// app.get('/api/sections', checkAuth, Section.getAll);
+// app.post('/api/sections', checkAuth, SectionValidation.create, Section.create);
 // ./Sections
 
 // Legals
