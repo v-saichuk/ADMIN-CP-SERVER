@@ -13,9 +13,7 @@ export const create = async (req, res) => {
                 {
                     _id: req.body.templateId,
                 },
-                {
-                    sections: [].push(req.body.sect),
-                },
+                {},
             );
         }
 
