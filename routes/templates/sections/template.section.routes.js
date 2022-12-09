@@ -8,24 +8,29 @@ export const create = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
-        const template = await Template.findById(req.body.templateId).exec();
+        if (req.body.title) {
+            await Template.updateOne(
+                {
+                    _id: req.body.templateId,
+                },
+                {
+                    sections: [
+                        {
+                            id: req.body.id,
+                            title: req.body.title,
+                            fields: req.body.fields,
+                        },
+                    ],
+                },
+            );
+        }
 
-        const resss = template.sections;
-
-        const doc = new Template({
-            section: {
-                id: req.body.id,
-                title: req.body.title,
-                fields: req.body.fields,
-            },
-        });
-
-        const template_saved = await doc.save();
+        const template = await Template.findById(req.body.templateId).populate('language').exec();
 
         res.json({
             success: true,
             message: 'Template Section',
-            template_saved,
+            sections,
         });
     } catch (err) {
         console.log('Template Section Error =>', err);
