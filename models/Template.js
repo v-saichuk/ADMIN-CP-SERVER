@@ -18,7 +18,7 @@ const TemplateSchema = new mongoose.Schema(
             type: String,
             default: 'No Logo Image',
         },
-        sections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Section' }],
+        sections: Array,
     },
     {
         timestamps: true,

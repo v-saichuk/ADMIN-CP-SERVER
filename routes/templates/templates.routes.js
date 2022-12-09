@@ -4,8 +4,8 @@ import Template from '../../models/Template.js';
 export const getAll = async (req, res) => {
     try {
         const templates = await Template.find().populate('language').exec();
-
-        res.json(templates.reverse());
+        const { sections, ...also } = templates;
+        res.json(also.reverse());
     } catch (err) {
         res.status(500).json({
             success: false,
