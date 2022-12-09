@@ -5,7 +5,7 @@ export const getAll = async (req, res) => {
     try {
         const templates = await Template.find().populate('language').exec();
 
-        const templatesAll = templates.map((el) => ({ ...el, sections: [1, 2] }));
+        const templatesAll = templates.map((el) => ({ sections: [1, 2], ...el }));
 
         res.json(templatesAll.reverse());
     } catch (err) {
