@@ -13,9 +13,11 @@ import * as WebsitesValidation from './routes/websites/websites.validation.js';
 // Templates
 import * as Templates from './routes/templates/templates.routes.js';
 import * as TemplateValidation from './routes/templates/templates.validation.js';
+
+import * as TemplateSection from './routes/templates/sections/template.section.routes.js';
 // Sections
-import * as Section from './routes/sections/sections.routes.js';
-import * as SectionValidation from './routes/sections/sections.validation.js';
+// import * as Section from './routes/sections/sections.routes.js';
+// import * as SectionValidation from './routes/sections/sections.validation.js';
 // Legals
 import * as Legals from './routes/legals/legals.routes.js';
 import * as LegalsValidation from './routes/legals/legals.validation.js';
@@ -85,6 +87,9 @@ app.post('/api/templates', checkAuth, TemplateValidation.create, Templates.creat
 app.patch('/api/templates/:id', checkAuth, TemplateValidation.update, Templates.update);
 app.delete('/api/templates/:id', checkAuth, Templates.remove);
 app.patch('/api/templates/group/update', checkAuth, Templates.groupUpdate);
+
+app.post('/api/templates/sections', checkAuth, TemplateSection.create);
+
 // ./Templates
 
 // Sections
