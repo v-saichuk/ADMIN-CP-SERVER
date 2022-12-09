@@ -14,16 +14,16 @@ export const create = async (req, res) => {
                     _id: req.body.templateId,
                 },
                 {
-                    sections: [
-                        {
-                            id: req.body.id,
-                            title: req.body.title,
-                            fields: req.body.fields,
-                        },
-                    ],
+                    sections: [].push(req.body.sect),
                 },
             );
         }
+
+        // {
+        //     id: req.body.id,
+        //     title: req.body.title,
+        //     fields: req.body.fields,
+        // }
 
         const template = await Template.findById(req.body.templateId).populate('language').exec();
 
