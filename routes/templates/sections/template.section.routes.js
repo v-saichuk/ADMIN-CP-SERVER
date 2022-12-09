@@ -12,21 +12,20 @@ export const create = async (req, res) => {
 
         const resss = template.sections;
 
-        // const doc = new Template({
-        //     templateId: req.body.templateId,
-        //     id: req.body.id,
-        //     title: req.body.title,
-        //     fields: req.body.fields,
-        // });
+        const doc = new Template({
+            section: {
+                id: req.body.id,
+                title: req.body.title,
+                fields: req.body.fields,
+            },
+        });
 
-        // const template_saved = await doc.save();
+        const template_saved = await doc.save();
 
         res.json({
             success: true,
             message: 'Template Section',
-            // website,
-            resss,
-            ...req,
+            template_saved,
         });
     } catch (err) {
         console.log('Template Section Error =>', err);
