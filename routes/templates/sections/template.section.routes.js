@@ -10,7 +10,7 @@ export const create = async (req, res) => {
         }
 
         const TEMPLATE_PAGE_ID = req.params.templateId;
-        const sections = await Template.findById(TEMPLATE_PAGE_ID).sections;
+        const sections = await Template.findById(TEMPLATE_PAGE_ID);
 
         // if (req.body.title) {
         //     await Template.updateOne(
