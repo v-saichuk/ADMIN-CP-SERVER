@@ -12,6 +12,9 @@ export const create = async (req, res) => {
         const TEMPLATE_PAGE_ID = req.params.templateId;
         const sections = await Template.findById(TEMPLATE_PAGE_ID);
 
+        console.log('params =>>>>', req.params);
+        console.log('sections =>>>>', sections);
+
         // if (req.body.title) {
         //     await Template.updateOne(
         //         {
@@ -36,7 +39,6 @@ export const create = async (req, res) => {
         res.json({
             success: true,
             message: 'Template Section',
-            sections,
         });
     } catch (err) {
         console.log('Template Section Error =>', err);
