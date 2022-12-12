@@ -9,10 +9,10 @@ export const create = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
-        const TEMPLATE_PAGE_ID = req.params.templateId;
+        const TEMPLATE_PAGE_ID = req.body.templateId;
         const sections = await Template.findById(TEMPLATE_PAGE_ID);
 
-        console.log('params =>>>>', req.params);
+        console.log('params =>>>>', req.body);
         console.log('sections =>>>>', sections);
 
         // if (req.body.title) {
