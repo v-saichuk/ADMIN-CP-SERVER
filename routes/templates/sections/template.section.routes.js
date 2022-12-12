@@ -9,7 +9,7 @@ export const create = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
-        const TEMPLATE_PAGE_ID = req.params.id;
+        const TEMPLATE_PAGE_ID = req.params.templateId;
         const sections = await Template.findById(TEMPLATE_PAGE_ID).sections;
 
         // if (req.body.title) {
