@@ -4,18 +4,26 @@ import Template from '../../../models/Template.js';
 export const create = async (req, res) => {
     try {
         const error = validationResult(req);
+
         if (!error.isEmpty()) {
             return res.status(400).json(error.array());
         }
 
-        if (req.body.title) {
-            await Template.updateOne(
-                {
-                    _id: req.body.templateId,
-                },
-                {},
-            );
-        }
+        const TEMPLATE_PAGE_ID = req.params.id;
+        const sections = await Template.findById(TEMPLATE_PAGE_ID).sections;
+
+        // if (req.body.title) {
+        //     await Template.updateOne(
+        //         {
+        //             _id: TEMPLATE_PAGE_ID,
+        //         },
+        //         {
+        //             sections: [
+
+        //             ]
+        //         },
+        //     );
+        // }
 
         // {
         //     id: req.body.id,
@@ -23,7 +31,7 @@ export const create = async (req, res) => {
         //     fields: req.body.fields,
         // }
 
-        const template = await Template.findById(req.body.templateId).populate('language').exec();
+        // const template = await Template.findById(req.body.templateId).populate('language').exec();
 
         res.json({
             success: true,
