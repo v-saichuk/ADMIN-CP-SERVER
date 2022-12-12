@@ -88,7 +88,7 @@ app.patch('/api/templates/:id', checkAuth, TemplateValidation.update, Templates.
 app.delete('/api/templates/:id', checkAuth, Templates.remove);
 app.patch('/api/templates/group/update', checkAuth, Templates.groupUpdate);
 
-app.post('/api/templates/sections', checkAuth, TemplateSection.create);
+app.post('/api/templates/sections/:id', checkAuth, TemplateSection.create);
 
 // ./Templates
 
