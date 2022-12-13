@@ -24,7 +24,7 @@ export const create = async (req, res) => {
                 sections: [...sect.sections, req.body],
             },
         );
-        }
+        // }
 
         // {
         //     id: req.body.id,
