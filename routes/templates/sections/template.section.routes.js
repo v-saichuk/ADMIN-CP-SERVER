@@ -10,22 +10,20 @@ export const create = async (req, res) => {
         }
 
         const TEMPLATE_PAGE_ID = req.body.templateId;
-        const sections = await Template.findById(TEMPLATE_PAGE_ID);
+        const sect = await Template.findById(TEMPLATE_PAGE_ID).sections;
 
         console.log('params =>>>>', req.body);
         console.log('sections =>>>>', sections);
 
         // if (req.body.title) {
-        //     await Template.updateOne(
-        //         {
-        //             _id: TEMPLATE_PAGE_ID,
-        //         },
-        //         {
-        //             sections: [
-
-        //             ]
-        //         },
-        //     );
+        await Template.updateOne(
+            {
+                _id: TEMPLATE_PAGE_ID,
+            },
+            {
+                sections: [...sect],
+            },
+        );
         // }
 
         // {
