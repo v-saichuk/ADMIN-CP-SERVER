@@ -83,12 +83,15 @@ app.patch('/api/websites/group/update', checkAuth, Websites.groupUpdate);
 
 // Templates
 app.get('/api/templates', checkAuth, Templates.getAll);
-app.post('/api/templates', checkAuth, TemplateValidation.create, Templates.create);
-app.patch('/api/templates/:id', checkAuth, TemplateValidation.update, Templates.update);
-app.delete('/api/templates/:id', checkAuth, Templates.remove);
 app.patch('/api/templates/group/update', checkAuth, Templates.groupUpdate);
 
-app.post('/api/templates/sections', checkAuth, TemplateSection.create);
+app.post('/api/template', checkAuth, TemplateValidation.create, Templates.create);
+app.patch('/api/template/:id', checkAuth, TemplateValidation.update, Templates.update);
+app.delete('/api/template/:id', checkAuth, Templates.remove);
+
+app.post('/api/template/section/action', checkAuth, TemplateSection.create);
+app.patch('/api/template/section/action', checkAuth, TemplateSection.update);
+app.patch('/api/template/section/delete', checkAuth, TemplateSection.remove);
 
 // ./Templates
 

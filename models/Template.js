@@ -20,7 +20,6 @@ const TemplateSchema = new mongoose.Schema(
         },
         sections: [
             {
-                id: String,
                 title: String,
                 fields: Array,
             },

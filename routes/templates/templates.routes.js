@@ -66,20 +66,6 @@ export const update = async (req, res) => {
             );
         }
 
-        // if (req.body.title) {
-        //     await Template.updateOne(
-        //         {
-        //             _id: TEMPLATE_PAGE_ID,
-        //         },
-        //         {
-        //             content: {
-        //                 title: req.body.title,
-        //                 description: req.body.description,
-        //             },
-        //         },
-        //     );
-        // }
-
         const template = await Template.findById(TEMPLATE_PAGE_ID).populate('language').exec();
 
         res.json({
@@ -142,6 +128,7 @@ export const groupUpdate = async (req, res) => {
                         template_pack: page.template_pack,
                         description: page.description,
                         screenshot: page.screenshot,
+                        sections: page.sections,
                     });
 
                     await doc.save();
