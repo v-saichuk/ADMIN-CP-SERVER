@@ -115,24 +115,36 @@ export const remove = async (req, res) => {
     }
 };
 
+// TODO: Помилки при дублювані шаблонів
 export const groupUpdate = async (req, res) => {
     try {
         switch (req.body.action) {
             case 'Duplicate':
-                req.body.templateId.filter(async (id) => {
-                    const page = await Template.findById(id);
+                const ARR_TEMPLATE_ID = req.body.templateId;
+
+                ARR_TEMPLATE_ID.filter(async (templateId) => {
+                    const template = await Template.findById(templateId);
 
                     const doc = new Template({
-                        name: page.name + '(copy)',
-                        language: page.language,
-                        template_pack: page.template_pack,
-                        description: page.description,
-                        screenshot: page.screenshot,
-                        sections: page.sections,
+                        name: template.name + '(copy)',
+                        language: template.language,
+                        template_pack: template.template_pack,
+                        description: template.description,
+                        screenshot: template.screenshot,
+                        sections: template.sections,
                     });
 
                     await doc.save();
+
+                    const templates = await Template.find().populate('language').exec();
+
+                    return await res.json({
+                        success: true,
+                        message: 'Templates pages успішно дубльовано!',
+                        templates: templates.reverse(),
+                    });
                 });
+
                 break;
 
             case 'Delete':
@@ -141,16 +153,17 @@ export const groupUpdate = async (req, res) => {
                         _id: el,
                     });
                 });
+                res.json({
+                    success: true,
+                    message: 'Templates pages успішно видаленно!',
+                });
                 break;
 
             default:
                 break;
         }
 
-        res.json({
-            success: true,
-            message: 'Templates pages успішно дубльовано',
-        });
+        // const template = await Template.findById(TEMPLATE_PAGE_ID).populate('language').exec();
     } catch (err) {
         res.status(500).json({
             success: false,

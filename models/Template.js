@@ -21,7 +21,23 @@ const TemplateSchema = new mongoose.Schema(
         sections: [
             {
                 title: String,
-                fields: Array,
+                fields: [
+                    {
+                        field_type: {
+                            type: String,
+                            require: true,
+                        },
+                        field_name: {
+                            type: String,
+                            require: true,
+                        },
+                        field_description: String,
+                        content: {
+                            type: Object,
+                            require: true,
+                        },
+                    },
+                ],
             },
         ],
     },

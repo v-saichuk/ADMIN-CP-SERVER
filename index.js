@@ -15,6 +15,7 @@ import * as Templates from './routes/templates/templates.routes.js';
 import * as TemplateValidation from './routes/templates/templates.validation.js';
 
 import * as TemplateSection from './routes/templates/sections/template.section.routes.js';
+import * as TemplateField from './routes/templates/fields/template.fields.routes.js';
 // Sections
 // import * as Section from './routes/sections/sections.routes.js';
 // import * as SectionValidation from './routes/sections/sections.validation.js';
@@ -92,6 +93,9 @@ app.delete('/api/template/:id', checkAuth, Templates.remove);
 app.post('/api/template/section/action', checkAuth, TemplateSection.create);
 app.patch('/api/template/section/action', checkAuth, TemplateSection.update);
 app.patch('/api/template/section/delete', checkAuth, TemplateSection.remove);
+
+app.post('/api/template/field/action', checkAuth, TemplateField.create);
+app.patch('/api/template/field/delete', checkAuth, TemplateField.remove);
 
 // ./Templates
 
