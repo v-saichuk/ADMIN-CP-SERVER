@@ -68,6 +68,10 @@ export const update = async (req, res) => {
 
         const TEMPLATE_ID = req.body.templateId;
         const SECTION_ID = req.body.sectionId;
+        const FIELD_ID = req.body.fieldId;
+
+        const INFORMATION = req.body.information;
+        const CONTENT = req.body.content;
 
         const template = await Template.findById(TEMPLATE_ID);
 
@@ -76,29 +80,41 @@ export const update = async (req, res) => {
                 _id: TEMPLATE_ID,
             },
             {
-                sections: template.sections.map((el) =>
-                    String(el._id) === SECTION_ID
-                        ? { ...el._doc, title: req.body.title, fields: el.fields }
-                        : el,
+                sections: template.sections.map((section) =>
+                    String(section._id) === SECTION_ID
+                        ? {
+                              _id: section._id,
+                              title: section.title,
+                              fields: [
+                                  ...section.fields.map((field) =>
+                                      String(field._id) === FIELD_ID
+                                          ? {
+                                                _id: field._id,
+                                                field_type: INFORMATION.field_type,
+                                                field_name: INFORMATION.field_name,
+                                                field_description: INFORMATION.field_description,
+                                                content: CONTENT,
+                                            }
+                                          : field,
+                                  ),
+                              ],
+                          }
+                        : section,
                 ),
             },
         );
 
-        const templateGetSections = await Template.findById(TEMPLATE_ID);
-        const getSection = templateGetSections.sections.find(
-            (el) => el._id.toString() === SECTION_ID,
+        const GetTemplate = await Template.findById(TEMPLATE_ID);
+        const GetSection = GetTemplate.sections.find(
+            (section) => String(section._id) === SECTION_ID,
         );
-
         res.json({
             success: true,
-            message: 'Template Section Updated!',
-            section: {
-                id: getSection._id,
-                title: getSection.title,
-            },
+            message: 'Template Section Field Updated!',
+            fields: GetSection.fields,
         });
-    } catch (err) {
-        console.log('Template Section Error Updated =>', err);
+    } catch (error) {
+        console.log('Template Section Field Error =>', error);
         res.status(500).json({
             success: false,
             message: 'Template Section Error Updated',

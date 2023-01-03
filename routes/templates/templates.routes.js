@@ -128,7 +128,7 @@ export const groupUpdate = async (req, res) => {
                     const doc = new Template({
                         name: template.name + '(copy)',
                         language: template.language,
-                        template_pack: template.template_pack,
+                        template_pack: template.template_pack + '(copy)',
                         description: template.description,
                         screenshot: template.screenshot,
                         sections: template.sections,

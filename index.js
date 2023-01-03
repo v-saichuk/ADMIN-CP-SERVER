@@ -95,6 +95,7 @@ app.patch('/api/template/section/action', checkAuth, TemplateSection.update);
 app.patch('/api/template/section/delete', checkAuth, TemplateSection.remove);
 
 app.post('/api/template/field/action', checkAuth, TemplateField.create);
+app.patch('/api/template/field/update', checkAuth, TemplateField.update);
 app.patch('/api/template/field/delete', checkAuth, TemplateField.remove);
 
 // ./Templates
