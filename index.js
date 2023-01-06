@@ -10,15 +10,13 @@ import * as AuthValidation from './routes/auth/auth.validation.js';
 // Websites
 import * as Websites from './routes/websites/websites.routes.js';
 import * as WebsitesValidation from './routes/websites/websites.validation.js';
+// Landing
+import * as Landing from './routes/landing/landings.routes.js';
 // Templates
 import * as Templates from './routes/templates/templates.routes.js';
 import * as TemplateValidation from './routes/templates/templates.validation.js';
-
 import * as TemplateSection from './routes/templates/sections/template.section.routes.js';
 import * as TemplateField from './routes/templates/fields/template.fields.routes.js';
-// Sections
-// import * as Section from './routes/sections/sections.routes.js';
-// import * as SectionValidation from './routes/sections/sections.validation.js';
 // Legals
 import * as Legals from './routes/legals/legals.routes.js';
 import * as LegalsValidation from './routes/legals/legals.validation.js';
@@ -82,6 +80,11 @@ app.patch(
 app.patch('/api/websites/group/update', checkAuth, Websites.groupUpdate);
 // ./Websites
 
+// Landing
+app.post('/api/landing', checkAuth, Landing.create);
+
+// ./Landing
+
 // Templates
 app.get('/api/templates', checkAuth, Templates.getAll);
 app.patch('/api/templates/group/update', checkAuth, Templates.groupUpdate);
@@ -97,13 +100,7 @@ app.patch('/api/template/section/delete', checkAuth, TemplateSection.remove);
 app.post('/api/template/field/action', checkAuth, TemplateField.create);
 app.patch('/api/template/field/update', checkAuth, TemplateField.update);
 app.patch('/api/template/field/delete', checkAuth, TemplateField.remove);
-
 // ./Templates
-
-// Sections
-// app.get('/api/sections', checkAuth, Section.getAll);
-// app.post('/api/sections', checkAuth, SectionValidation.create, Section.create);
-// ./Sections
 
 // Legals
 app.get('/api/legals', checkAuth, Legals.getAll);
