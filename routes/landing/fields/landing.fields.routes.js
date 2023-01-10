@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import Template from '../../../models/Template.js';
+import Landing from '../../../models/Landing.js';
 
 export const create = async (req, res) => {
     try {
@@ -9,20 +9,20 @@ export const create = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
-        const TEMPLATE_ID = req.body.main_id;
+        const LANDING_ID = req.body.main_id;
         const SECTION_ID = req.body.section_id;
 
         const INFORMATION = req.body.information;
         const CONTENT = req.body.content;
 
-        const template = await Template.findById(TEMPLATE_ID);
+        const landing = await Landing.findById(LANDING_ID);
 
-        await Template.updateOne(
+        await Landing.updateOne(
             {
-                _id: TEMPLATE_ID,
+                _id: LANDING_ID,
             },
             {
-                sections: template.sections.map((section) =>
+                sections: landing.sections.map((section) =>
                     String(section._id) === SECTION_ID
                         ? {
                               _id: section._id,
@@ -42,18 +42,18 @@ export const create = async (req, res) => {
             },
         );
 
-        const getSections = await Template.findById(TEMPLATE_ID);
+        const getSection = await Landing.findById(LANDING_ID);
 
         res.json({
             success: true,
-            message: 'Template Section Field Created!',
-            sections: getSections.sections,
+            message: 'Landing Section Field Created!',
+            sections: getSection.sections,
         });
     } catch (err) {
-        console.log('Template Section Error =>', err);
+        console.log('Landing Section Error =>', err);
         res.status(500).json({
             success: false,
-            message: 'Template Section Error Created',
+            message: 'Landing Section Error Created',
         });
     }
 };
@@ -66,21 +66,21 @@ export const update = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
-        const TEMPLATE_ID = req.body.main_id;
+        const LANDING_ID = req.body.main_id;
         const SECTION_ID = req.body.section_id;
         const FIELD_ID = req.body.fieldId;
 
         const INFORMATION = req.body.information;
         const CONTENT = req.body.content;
 
-        const template = await Template.findById(TEMPLATE_ID);
+        const landing = await Landing.findById(LANDING_ID);
 
-        await Template.updateOne(
+        await Landing.updateOne(
             {
-                _id: TEMPLATE_ID,
+                _id: LANDING_ID,
             },
             {
-                sections: template.sections.map((section) =>
+                sections: landing.sections.map((section) =>
                     String(section._id) === SECTION_ID
                         ? {
                               _id: section._id,
@@ -104,20 +104,20 @@ export const update = async (req, res) => {
             },
         );
 
-        const GetTemplate = await Template.findById(TEMPLATE_ID);
-        const GetSection = GetTemplate.sections.find(
+        const GetLanding = await Landing.findById(LANDING_ID);
+        const GetSection = GetLanding.sections.find(
             (section) => String(section._id) === SECTION_ID,
         );
         res.json({
             success: true,
-            message: 'Template Section Field Updated!',
+            message: 'Landing Section Field Updated!',
             fields: GetSection.fields,
         });
     } catch (error) {
-        console.log('Template Section Field Error =>', error);
+        console.log('Landing Section Field Error =>', error);
         res.status(500).json({
             success: false,
-            message: 'Template Section Error Updated',
+            message: 'Landing Section Error Updated',
         });
     }
 };
@@ -130,34 +130,36 @@ export const remove = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
-        const TEMPLATE_ID = req.body.templateId;
+        const LANDING_ID = req.body.landingId;
         const SECTION_ID = req.body.sectionId;
         const FIELD_ID = req.body.fieldId;
 
-        const template = await Template.findById(TEMPLATE_ID);
+        const landing = await Landing.findById(LANDING_ID);
 
-        await Template.updateOne(
+        await Landing.updateOne(
             {
-                _id: TEMPLATE_ID,
+                _id: LANDING_ID,
             },
             {
-                sections: template.sections.filter((sec) =>
-                    String(sec._id) === SECTION_ID
-                        ? (sec.fields = sec.fields.filter((elm) => String(elm._id) !== FIELD_ID))
-                        : { ...sec },
+                sections: landing.sections.filter((section) =>
+                    String(section._id) === SECTION_ID
+                        ? (section.fields = section.fields.filter(
+                              (field) => String(field._id) !== FIELD_ID,
+                          ))
+                        : { ...section },
                 ),
             },
         );
 
         res.json({
             success: true,
-            message: 'Template Field Deleted!',
+            message: 'Landing Field Deleted!',
         });
     } catch (err) {
-        console.log('Template Field Error Deleted =>', err);
+        console.log('Landing Field Error Deleted =>', err);
         res.status(500).json({
             success: false,
-            message: 'Template Field Error Deleted',
+            message: 'Landing Field Error Deleted',
         });
     }
 };
@@ -170,17 +172,17 @@ export const position = async (req, res) => {
             return res.status(400).json(error.array());
         }
 
-        const TEMPLATE_ID = req.body.template_id;
+        const LANDING_ID = req.body.landing_id;
         const SECTION_ID = req.body.section_id;
 
-        const template = await Template.findById(TEMPLATE_ID);
+        const landing = await Landing.findById(LANDING_ID);
 
-        await Template.updateOne(
+        await Landing.updateOne(
             {
-                _id: TEMPLATE_ID,
+                _id: LANDING_ID,
             },
             {
-                sections: template.sections.map((section) =>
+                sections: landing.sections.map((section) =>
                     String(section._id) === SECTION_ID
                         ? {
                               _id: section._id,

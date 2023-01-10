@@ -13,7 +13,10 @@ const LandingSchema = new mongoose.Schema(
         language: { type: mongoose.Schema.Types.ObjectId, ref: 'Language', require: true },
         website: { type: mongoose.Schema.Types.ObjectId, ref: 'Websites', require: true },
         offer: { type: mongoose.Schema.Types.ObjectId, ref: 'Offer', require: true },
-        template_pack: { type: mongoose.Schema.Types.ObjectId, ref: 'Template', require: true },
+        template_pack: {
+            type: String,
+            require: true,
+        },
 
         status: {
             type: Boolean,

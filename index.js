@@ -12,6 +12,8 @@ import * as Websites from './routes/websites/websites.routes.js';
 import * as WebsitesValidation from './routes/websites/websites.validation.js';
 // Landing
 import * as Landing from './routes/landing/landings.routes.js';
+import * as LandingSection from './routes/landing/sections/landing.section.routes.js';
+import * as LandingField from './routes/landing/fields/landing.fields.routes.js';
 // Templates
 import * as Templates from './routes/templates/templates.routes.js';
 import * as TemplateValidation from './routes/templates/templates.validation.js';
@@ -81,8 +83,22 @@ app.patch('/api/websites/group/update', checkAuth, Websites.groupUpdate);
 // ./Websites
 
 // Landing
+app.get('/api/landings', checkAuth, Landing.getAll);
 app.post('/api/landing', checkAuth, Landing.create);
+app.patch('/api/landing/:id', checkAuth, Landing.update);
+app.delete('/api/landing/:id', checkAuth, Landing.remove);
+app.patch('/api/landing/status/:id', checkAuth, Landing.updateEnabledOne);
 
+app.patch('/api/landing/group/update', checkAuth, Landing.groupUpdate);
+
+app.post('/api/landing/section/action', checkAuth, LandingSection.create);
+app.patch('/api/landing/section/action', checkAuth, LandingSection.update);
+app.patch('/api/landing/section/delete', checkAuth, LandingSection.remove);
+
+app.post('/api/landing/field/action', checkAuth, LandingField.create);
+app.patch('/api/landing/field/update', checkAuth, LandingField.update);
+app.patch('/api/landing/field/delete', checkAuth, LandingField.remove);
+app.patch('/api/landing/field/position', checkAuth, LandingField.position);
 // ./Landing
 
 // Templates
@@ -100,6 +116,8 @@ app.patch('/api/template/section/delete', checkAuth, TemplateSection.remove);
 app.post('/api/template/field/action', checkAuth, TemplateField.create);
 app.patch('/api/template/field/update', checkAuth, TemplateField.update);
 app.patch('/api/template/field/delete', checkAuth, TemplateField.remove);
+app.patch('/api/template/field/position', checkAuth, TemplateField.position);
+
 // ./Templates
 
 // Legals

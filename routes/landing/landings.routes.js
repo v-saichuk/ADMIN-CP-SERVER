@@ -2,18 +2,22 @@ import { validationResult } from 'express-validator';
 import Landing from '../../models/Landing.js';
 import Template from '../../models/Template.js';
 
-// export const getAll = async (req, res) => {
-//     try {
-//         const templates = await Template.find().populate('language').exec();
+export const getAll = async (req, res) => {
+    try {
+        const landings = await Landing.find()
+            .populate('language')
+            .populate('website')
+            .populate('offer')
+            .exec();
 
-//         res.json(templates.reverse());
-//     } catch (err) {
-//         res.status(500).json({
-//             success: false,
-//             message: 'Невдалось отримати всі Templates',
-//         });
-//     }
-// };
+        res.json(landings.reverse());
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'Невдалось отримати всі Landings',
+        });
+    }
+};
 
 export const create = async (req, res) => {
     try {
@@ -30,7 +34,7 @@ export const create = async (req, res) => {
             language: req.body.language,
             website: req.body.website,
             offer: req.body.offer,
-            template_pack: req.body.template_pack,
+            template_pack: template.template_pack,
             status: req.body.status,
             note: req.body.note,
             sections: template.sections,
@@ -46,7 +50,7 @@ export const create = async (req, res) => {
         res.json({
             success: true,
             message: 'Landing page успішно створенний',
-            landing,
+            data: landing,
         });
     } catch (err) {
         console.log('Помилка в створенні нового Landing page =>', err);
@@ -57,127 +61,164 @@ export const create = async (req, res) => {
     }
 };
 
-// export const update = async (req, res) => {
-//     try {
-//         const TEMPLATE_PAGE_ID = req.params.id;
+export const update = async (req, res) => {
+    try {
+        const LANDING_PAGE_ID = req.params.id;
 
-//         if (req.body.name) {
-//             await Template.updateOne(
-//                 {
-//                     _id: TEMPLATE_PAGE_ID,
-//                 },
-//                 {
-//                     name: req.body.name,
-//                     language: req.body.language,
-//                     template_pack: req.body.template_pack,
-//                     description: req.body.description,
-//                     screenshot: req.body.screenshot,
-//                 },
-//             );
-//         }
+        if (req.body.name) {
+            await Landing.updateOne(
+                {
+                    _id: LANDING_PAGE_ID,
+                },
+                {
+                    name: req.body.name,
+                    country: req.body.country,
+                    language: req.body.language,
+                    website: req.body.website,
+                    offer: req.body.offer,
+                    // template_pack: req.body.template_pack,
+                    status: req.body.status,
+                    note: req.body.note,
+                },
+            );
+        }
 
-//         const template = await Template.findById(TEMPLATE_PAGE_ID).populate('language').exec();
+        const LANDING = await Landing.findById(LANDING_PAGE_ID)
+            .populate('language')
+            .populate('website')
+            .populate('offer')
+            .exec();
 
-//         res.json({
-//             success: true,
-//             message: 'Template успішно відредагований',
-//             template,
-//         });
-//     } catch (err) {
-//         res.status(500).json({
-//             success: false,
-//             message: 'Невдалось відредагувати Template page',
-//         });
-//     }
-// };
+        res.json({
+            success: true,
+            message: 'Landing page успішно відредагований',
+            data: LANDING,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'Невдалось відредагувати Landing page',
+        });
+    }
+};
 
-// export const remove = async (req, res) => {
-//     try {
-//         const TEMPLATE_PAGE_ID = req.params.id;
-//         Template.findOneAndDelete({ _id: TEMPLATE_PAGE_ID }, (err, doc) => {
-//             if (err) {
-//                 return res.status(500).json({
-//                     success: false,
-//                     message: 'Невдалось видалити Template Page',
-//                     err,
-//                 });
-//             }
+export const updateEnabledOne = async (req, res) => {
+    try {
+        const LANDING_PAGE_ID = req.params.id;
 
-//             if (!doc) {
-//                 return res.status(404).json({
-//                     success: false,
-//                     message: 'Template Page не знайденo',
-//                     err,
-//                 });
-//             }
+        await Landing.updateOne(
+            {
+                _id: LANDING_PAGE_ID,
+            },
+            {
+                status: req.body.status,
+            },
+        );
 
-//             res.json({
-//                 success: true,
-//                 message: 'Template Page успішно видаленний',
-//             });
-//         });
-//     } catch (err) {
-//         res.status(500).json({
-//             success: false,
-//             message: 'Невдалось видалити Template Page',
-//             err,
-//         });
-//     }
-// };
+        res.json({
+            success: true,
+            message: `Landing page успішно ${req.body.status ? 'Активовано' : 'Деактивовано'}`,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: `Невдалось ${req.body.status ? 'Активувати' : 'Деактивувати'} Landing page`,
+        });
+    }
+};
+
+export const remove = async (req, res) => {
+    try {
+        const LANDING_PAGE_ID = req.params.id;
+        Landing.findOneAndDelete({ _id: LANDING_PAGE_ID }, (err, doc) => {
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Невдалось видалити Landing Page',
+                    err,
+                });
+            }
+
+            if (!doc) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Landing Page не знайденo',
+                    err,
+                });
+            }
+
+            res.json({
+                success: true,
+                message: 'Landing Page успішно видаленний',
+            });
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'Невдалось видалити Landing Page',
+            err,
+        });
+    }
+};
 
 // // TODO: Помилки при дублювані шаблонів
-// export const groupUpdate = async (req, res) => {
-//     try {
-//         switch (req.body.action) {
-//             case 'Duplicate':
-//                 const ARR_TEMPLATE_ID = req.body.templateId;
+export const groupUpdate = async (req, res) => {
+    try {
+        switch (req.body.action) {
+            case 'Duplicate':
+                const ARR_LANDING_ID = req.body.landingId;
 
-//                 ARR_TEMPLATE_ID.filter(async (templateId) => {
-//                     const template = await Template.findById(templateId);
+                ARR_LANDING_ID.filter(async (landingId) => {
+                    const landing = await Landing.findById(landingId);
 
-//                     const doc = new Template({
-//                         name: template.name + '(copy)',
-//                         language: template.language,
-//                         template_pack: template.template_pack + '(copy)',
-//                         description: template.description,
-//                         screenshot: template.screenshot,
-//                         sections: template.sections,
-//                     });
+                    const doc = new Landing({
+                        name: landing.name + '(copy)',
+                        country: landing.country,
+                        language: landing.language,
+                        website: landing.website,
+                        offer: landing.offer,
+                        sections: landing.sections,
+                        template_pack: landing.template_pack,
+                        status: landing.status,
+                        note: landing.note,
+                    });
 
-//                     await doc.save();
+                    await doc.save();
 
-//                     const templates = await Template.find().populate('language').exec();
+                    const landings = await Landing.find()
+                        .populate('language')
+                        .populate('website')
+                        .populate('offer')
+                        .exec();
 
-//                     return await res.json({
-//                         success: true,
-//                         message: 'Templates pages успішно дубльовано!',
-//                         templates: templates.reverse(),
-//                     });
-//                 });
+                    return await res.json({
+                        success: true,
+                        message: 'Landing pages успішно дубльовано!',
+                        data: landings.reverse(),
+                    });
+                });
 
-//                 break;
+                break;
 
-//             case 'Delete':
-//                 req.body.templateId.filter(async (el) => {
-//                     return await Template.findOneAndDelete({
-//                         _id: el,
-//                     });
-//                 });
-//                 res.json({
-//                     success: true,
-//                     message: 'Templates pages успішно видаленно!',
-//                 });
-//                 break;
+            case 'Delete':
+                req.body.landingId.filter(async (el) => {
+                    return await Landing.findOneAndDelete({
+                        _id: el,
+                    });
+                });
+                res.json({
+                    success: true,
+                    message: 'Landing pages успішно видаленно!',
+                });
+                break;
 
-//             default:
-//                 break;
-//         }
-
-//         // const template = await Template.findById(TEMPLATE_PAGE_ID).populate('language').exec();
-//     } catch (err) {
-//         res.status(500).json({
-//             success: false,
-//             message: 'Невдалось дубльовати Templates pages',
-//         });
-//     }
-// };
+            default:
+                break;
+        }
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'Невдалось дубльовати Landing pages',
+        });
+    }
+};
